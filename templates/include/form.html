@@ -1,0 +1,18 @@
+{% load widget_tweaks %}
+{% for f in form %}
+    <div class="form-group">
+    <label>{{f.label_tag}}</label>
+      {% if form.is_bound %}
+      {% if f.errors %}
+      {% render_field f class='form-control is-invalid' %}
+      <div class="invalid-feedback">
+        {{f.errors}}
+      </div>
+      {% else %}
+      {% render_field f class='form-control is-valid' %}
+      {% endif %}
+      {% else %}
+      {% render_field f  class='' %}
+      {% endif %}
+    </div>
+    {% endfor %}

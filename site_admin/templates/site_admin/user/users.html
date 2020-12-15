@@ -1,0 +1,165 @@
+{% extends 'site_admin/base.html' %}
+{% block content %}
+<br>
+<body>
+{% if messages %}
+    {% for message in messages %}
+    <div id="tempalert" class="alert alert-{{ message.tags }} alert-dismissible fade show d-none" role="alert">
+        {{ message }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {% endfor %}
+    {% endif %}
+<div class="text-center text-primary mt-3">
+    <h4>All Users</h4>
+</div>
+  <div class="form-group">
+    <form action="{% url 'admin_search_users' %}" method="POST">
+      {% csrf_token %}
+      <div class="form-inline ml-auto mr-auto w-50 mt-4">
+        <input type="text" name="search_id" placeholder="Search By Name" class="form-control"
+            style="width: 50%;">
+        <input type="hidden" value="search" name="u_status">
+          <button  type="submit" id="search" class="btn btn-primary ml-3">Search</button>
+      </div>
+  </form>
+<div class="table-responsive">
+  <table class="table mt-3">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Email</th>
+        <th scope="col">Registration Date</th>
+        <th scope="col">Status</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+      {% for u in page_obj %}
+    <tbody>
+      <tr>
+        <td>{{forloop.counter}}</td>
+        <td>{{u.name}}</td>
+        <td>{{u.email}}</td>
+        <td>{{u.reg_date}}</td>
+<!--        <td>{{u.user_status}}</td>-->
+        <td>
+          <select id="{{u.user_id}}" onchange="test(this)" class="form-control">
+            {% if u.user_status == "P" %}
+              <option selected>Pending</option>
+              <option>Approved</option>
+              <option>Blocked</option>
+            {% elif u.user_status == 'A' %}
+              <option selected>Approved</option>
+              <option>Pending</option>
+              <option>Blocked</option>
+            {% elif u.user_status == 'B' %}
+              <option selected>Blocked</option>
+              <option>Approved</option>
+              <option>Pending</option>
+            {% endif %}
+          </select>
+        </td>
+        <td><a id="{{u.user_id}}" type="button" onclick="del_city(this)" class="btn btn-danger">Delete</a></td>
+      </tr>
+    </tbody>
+      {% endfor %}
+  </table>
+</div>
+{% if page_obj %}
+      <hr>
+    <nav aria-label="Page navigation example m-2">
+      <ul class="pagination justify-content-end">
+        {% if page_obj.has_previous %}
+        <li class="page-item ">
+          <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled ">
+          <a class="page-link" href="">Previous</a>
+        </li>
+        {% endif %}
+        <li class="page-item"><a class="page-link" href="#">{{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</a></li>
+        {% if page_obj.has_next %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+          <a class="page-link" href="#">Next</a>
+        </li>
+        {% endif %}
+      </ul>
+    </nav>
+      {% endif %}
+
+<!--Modal-->
+
+<div class="modal fade" id="p_model" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="model_heading"></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form method="POST">
+        {% csrf_token %}
+        <div class="modal-body">
+            <h4 id="model_content"></h4>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button  type="submit" id="p_button" class="btn btn-primary"></button>
+          <input type="hidden" value="" id="u_id" name="u_id">
+          <input type="hidden" value="" id="u_status" name="u_status">
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- ----------------------------------------------------- -->
+
+</body>
+<br>
+<script>
+  function test(a) {
+    var schange = a.options[a.selectedIndex].value
+    if(schange == 'Approved'){
+      document.getElementById('model_heading').innerHTML = 'Approved'
+      document.getElementById('model_content').innerHTML = 'Are You Sure You Want To Approved This User'
+      document.getElementById('p_button').innerHTML = 'Approved User'
+      $("#p_model").modal('show');
+      document.getElementById('u_id').value = a.id
+      document.getElementById('u_status').value = schange
+    }
+    else if(schange == 'Pending'){
+      document.getElementById('model_heading').innerHTML = 'Pending'
+      document.getElementById('model_content').innerHTML = 'Are You Sure You Want To Pending This User'
+      document.getElementById('p_button').innerHTML = 'Pending User'
+      $("#p_model").modal('show');
+      document.getElementById('u_id').value = a.id
+      document.getElementById('u_status').value = schange
+    }
+    else if(schange == 'Blocked'){
+      document.getElementById('model_heading').innerHTML = 'Blocked'
+      document.getElementById('model_content').innerHTML = 'Are You Sure You Want To Blocked This User'
+      document.getElementById('p_button').innerHTML = 'Blocked User'
+      $("#p_model").modal('show');
+      document.getElementById('u_id').value = a.id
+      document.getElementById('u_status').value = schange
+    }
+}
+function del_city(e){
+  document.getElementById('model_heading').innerHTML = 'Delete'
+  document.getElementById('model_content').innerHTML = 'Are You Sure You Want To Delete This User'
+  document.getElementById('p_button').innerHTML = 'Delete User'
+  $("#p_model").modal('show')
+   document.getElementById('u_id').value = e.id
+   document.getElementById('u_status').value = 'Delete'
+}
+</script>
+{% endblock content %}

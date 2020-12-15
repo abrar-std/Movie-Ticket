@@ -1,0 +1,7 @@
+Django==3.0.4
+django-widget-tweaks==1.4.8
+Jinja2==2.11.2
+Pillow==7.0.0
+psycopg2==2.8.4
+requests==2.23.0
+sqlparse==0.3.1

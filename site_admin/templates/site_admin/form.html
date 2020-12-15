@@ -1,0 +1,36 @@
+{% extends "site_admin/base.html" %}
+{% load static %}
+{% block content %}
+<br>
+<body>
+    <div class="container">
+        {% if object %}
+        <p class="display-4 text-center mt-5">Update {{model_name}}</p>
+        {% else %}
+        <p class="display-4 text-center mt-5">Add {{model_name}}</p>
+        {% endif %}
+        <div class="row">
+            <div class="col-3"></div>
+            <form id="form" action="" method="POST" class="col-6 mt-4" {% if image %}
+                  enctype="multipart/form-data"{% endif %}>
+                {% csrf_token %}
+                {% include 'include/form.html' %}
+                {% if object %}
+                <div class="text-center">
+                <button type="submit" class="btn btn-primary">Update {{model_name}}</button>
+            </div>
+                {% else %}
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">Add {{model_name}}</button>
+            </div>
+                {% endif %}
+                <br><br>
+            </form>
+            <div class="col-3"></div>
+        </div>
+    </div>
+<br>
+    <script>
+        var schedule_status=false
+    </script>
+{% endblock content %}

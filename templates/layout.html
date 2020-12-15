@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>E-Tickets - Watch Your Next Movie With US</title>
+	<link rel="icon" type="image/png" href="{% static 'corecode/images/favicon.png' %}" />
+	<link href="{% static 'corecode/css/slick.css' %}" rel="stylesheet">
+	<link href="{% static 'corecode/css/bootstrap.min.css' %}" rel="stylesheet">
+	<link href="{% static 'corecode/css/venobox.css' %}" rel="stylesheet">
+	<link href="{% static 'corecode/css/style.css' %}" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,400,700" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+
+<body>
+
+	<div class="wrapper">
+		<!-- Nevegation Starts -->
+		<div class="navbar" role="navigation">
+
+			<div class="heading">
+				<div class="container">
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="search">
+								<a href="browse-movies.html">
+									<i class="material-icons">search</i>
+								</a>
+							</div>
+							<div class="tel">
+								<a href="tel:03407909920">
+									<i class="material-icons">phone in talk</i> 0340 790 9920
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="container">
+				<div class="navbar-header">
+					<a href="index.html" class="logo" title="Craft beer landing page">
+						<img src="{% static 'corecode/images/logo.png' %}" alt="Craft Beer HTML Template">
+					</a>
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar top-bar"></span>
+						<span class="icon-bar middle-bar"></span>
+						<span class="icon-bar bottom-bar"></span>
+					</button>
+				</div>
+
+				<!-- Nav Menu Start-->
+				<div class="navbar-collapse collapse">
+					<ul id="menu-primary" class="nav navbar-nav">
+						<li class="active">
+							<a href="{% url 'index' %}">Home</a>
+						</li>
+						<li>
+							<a href="{% url 'movies' %}">Browse Movies</a>
+						</li>
+						<li>
+							<a href="#">Contact US</a>
+                        </li>
+                        {% if 'user' in request.session %}
+                        <li class="dropdown">
+							<a href="#">{{request.session.user_name}}</a>
+							<ul class="dropdown-menu">
+								<li><a href="#">My Tickets</a></li>   <!-- Add the Link to the user ticket section here-->
+                                <li><a href="{% url 'user_edit_profile' user.user_id  %}">Edit Profile</a></li>
+                                <li><a href="{% url 'user_logout' %}">Log Out</a></li>
+							</ul>
+                        </li>
+                        {% else %}
+						<li>
+							<a href="{% url 'user_login' %}">Login</a>
+						</li>
+						<li>
+							<a href="{% url 'user_register' %}">Register</a>
+                        </li>
+                        {% endif %}
+					</ul>
+				</div>
+				<!-- Nav Menu End-->
+			</div>
+		</div>
+        <!-- Nevegation Ends -->
+        {% block content %}{% endblock content %}
+
+        <div class="container section small-padding">
+			<div class="row">
+				<div class="col-sm-12 cta">
+					<p>Need help? Contact our support team on</p>
+					<p class="gradient-text">0340 790 9920</p>
+				</div>
+			</div>
+		</div>
+
+		<footer>
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-3">
+						<h6>Get in touch</h6>
+						<ul>
+							<li><a href="#">FAQs</a></li>
+							<li><a href="#">Give us feedback</a></li>
+							<li><a href="#">Contact us</a></li>
+						</ul>
+					</div>
+					<div class="col-sm-3">
+						<h6>About Movie star</h6>
+						<ul>
+							<li><a href="#">About us</a></li>
+							<li><a href="#">Find us</a></li>
+							<li><a href="#">Schedule</a></li>
+							<li><a href="#">News</a></li>
+						</ul>
+					</div>
+					<div class="col-sm-3">
+						<h6>Legal stuff</h6>
+						<ul>
+							<li><a href="#">Terms &amp; Conditions</a></li>
+							<li><a href="#">Privacy policy</a></li>
+							<li><a href="#">Cookie policy</a></li>
+						</ul>
+					</div>
+					<div class="col-sm-3">
+						<h6>Connect with us</h6>
+						<ul>
+							<li><a href="#"><i class="fa fa-facebook"></i> Facebook</a></li>
+							<li><a href="#"><i class="fa fa-twitter"></i> Twitter</a></li>
+							<li><a href="#"><i class="fa fa-google-plus"></i> Google +</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="copyright">
+					<p>2020 &copy; E-Tickets | <a href="https://www.behance.net/abrar62/" target="_blank">Designed & Developed by Abrar
+							Ahmed</a>
+					</p>
+				</div>
+			</div>
+		</footer>
+	</div>
+	<script src="{% static 'corecode/js/jquery-2.2.4.min.js' %}"></script>
+	<script src="{% static 'corecode/js/jquery-ui.min.js' %}"></script>
+	<script src="{% static 'corecode/js/bootstrap.min.js' %}"></script>
+	<script src="{% static 'corecode/js/headhesive.min.js' %}"></script>
+	<script src="{% static 'corecode/js/matchHeight.min.js' %}"></script>
+	<script src="{% static 'corecode/js/modernizr.custom.js' %}"></script>
+	<script src="{% static 'corecode/js/slick.min.js' %}"></script>
+	<script src="{% static 'corecode/js/venobox.min.js' %}"></script>
+	<script src="{% static 'corecode/js/custom.js' %}"></script>
+</body>
+
+</html>

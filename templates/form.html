@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+{% load static %}
+{% block content %}
+<div id="content_hero" style="background-image: url({% static 'corecode/images/hero-contact.jpg'%})">
+    <img src="{% static 'corecode/images/scroll-arrow.svg'%}" alt="Scroll down" class="scroll" />
+    <div class="container">
+        <div class="row blurb scrollme animateme" data-when="exit" data-from="0" data-to="1" data-opacity="0"
+            data-translatey="100">
+            <div class="col-md-9">
+                <span class="title">Hi there!</span>
+                <h1>Edit Profile</h1>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row mt-3">
+        <div class="col-6"></div>
+        <div class="col-6">
+            {% if messages %}
+            {% for message in messages %}
+            <div id="tempalert" class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {% endfor %}
+            {% endif %}
+        </div>
+</div>
+    <div class="container">
+        <p class="display-4 text-center mt-5">{{model_name}}</p>
+        <div class="row">
+            <form id="form" action="" method="POST" class="col-6 mt-4">
+                {% csrf_token %}
+                {% include 'include/form.html' %}
+                <div class="text-center">
+                <button type="submit" class="btn btn-primary">{{model_name}}</button>
+                </div>
+                <br><br>
+            </form>
+            </form>
+        </div>
+    </div>
+<br>
+{% endblock content %}
